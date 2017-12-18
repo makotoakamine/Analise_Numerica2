@@ -63,7 +63,7 @@ int main(){
         }
         VV = allocV(n+1);
         subVV(VV,Y_real,Y_aprox,n+1);
-        printf("%.14lf\t%.14lf\n",log(n),log(Ninf(VV,n+1)));
+        printf("%.14lf\t%.14lf\n",log10(n),log10(Ninf(VV,n+1)));
         //printf("%d\t%.14lf\n",n,Ninf(VV,n+1));
         n+=10;
     }
