@@ -55,8 +55,8 @@ int main(){
         
         //gerar dominio com 10117 pontos e ao mesmo testar
         x[0] = -1.0000;
-        max_eq = abs(func(x[0]) - Pol(Xeq,Yeq,x[0],n+1));
-        max_cheb = abs(func(x[0]) - Pol(Xcheb,Ycheb,x[0],n+1));
+        max_eq = fabs(func(x[0]) - Pol(Xeq,Yeq,x[0],n+1));
+        max_cheb = fabs(func(x[0]) - Pol(Xcheb,Ycheb,x[0],n+1));
         for(i=1;i<10117;i++){
            x[i] = -1.0000 + (2.0000*((double)i))/(10116.0000);
            temp = fabs(func(x[i]) - Pol(Xeq,Yeq,x[i],n+1));
@@ -69,7 +69,7 @@ int main(){
                max_cheb = temp;
            }
         }
-        printf("%d\t%.18lf\t%.18lf\n",n,log10(max_eq),log10(max_cheb));
+        printf("%d;%.18lf;%.18lf;%.18lf;%.18lf\n",n,max_eq,max_cheb,log10(max_eq),log10(max_cheb));
     }
     return 0;
 }

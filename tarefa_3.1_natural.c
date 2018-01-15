@@ -35,8 +35,8 @@ int main(){
     while(n<=200){
         x0 = -1.00;
         h = 2.00/(double)n;
-        d0 = 1850.00/4394.00;
-        dn = 1850.00/4394.00;
+        d0 = 0.00;//spline cúbico natural y''(0) = 0
+        dn = 0.00;//spline cúbico natural y''(n) = 0
         M = allocV(n+1);
         
         Y = allocV(n+1);
@@ -63,8 +63,16 @@ int main(){
         }
         VV = allocV(n+1);
         subVV(VV,Y_real,Y_aprox,n+1);
-        printf("%.14lf\t%.14lf\n",log(n),log(Ninf(VV,n+1)));
+        printf("%.14lf;%.14lf\n",log10(n),log10(Ninf(VV,n+1)));
         //printf("%d\t%.14lf\n",n,Ninf(VV,n+1));
+        //Free para o ponteiros 
+        free(Y);
+        free(X);
+        free(X_aprox);
+        free(Y_aprox);
+        free(Y_real);
+        free(VV);
+        free(M);
         n+=10;
     }
     

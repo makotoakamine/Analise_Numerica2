@@ -16,7 +16,7 @@ double func(double x){
 int main(){
     int i;
     int j;
-    int n = 10;
+    int n = 100;
     double x0;
     double h;
     double h2;
@@ -31,12 +31,13 @@ int main(){
     double* Y_real;
     double* VV;
     double* M;
+    double x;
     
     while(n<=200){
         x0 = -1.00;
         h = 2.00/(double)n;
-        d0 = 1850.00/4394.00;
-        dn = 1850.00/4394.00;
+        d0 = 3700.00/4394.00;
+        dn = 3700.00/4394.00;
         M = allocV(n+1);
         
         Y = allocV(n+1);
@@ -58,13 +59,56 @@ int main(){
             j = findFloorIntervIndex(X,n+1,X_aprox[i]);
             Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
             Bj = Y[j] - (M[j]*h*h)/6.00;
-            Y_aprox[i] = (M[j]/(6.00*h))*pow(X[j+1]-X_aprox[i],3) + (M[j+1]/(6*h))*pow(X_aprox[i]-X[j],3) + Aj*(X_aprox[i]-X[j]) + Bj;
+            Y_aprox[i] = (M[j]/(6.00*h))*pow(X[j+1]-X_aprox[i],3) + (M[j+1]/(6.00*h))*pow(X_aprox[i]-X[j],3) + Aj*(X_aprox[i]-X[j]) + Bj;
             Y_real[i] = func(X_aprox[i]);
         }
         VV = allocV(n+1);
         subVV(VV,Y_real,Y_aprox,n+1);
-        printf("%.14lf\t%.14lf\n",log(n),log(Ninf(VV,n+1)));
-        //printf("%d\t%.14lf\n",n,Ninf(VV,n+1));
+        // imprimir pontos para visualizacao da aproximacao e os pontos reais
+        //for(i = 0;i<10117;i++)    printf("%.14lf;%.14lf;%.14lf\n",X_aprox[i],Y_aprox[i],Y_real[i]);
+        
+        printf("%.14lf;%.14lf ",log10(n),log10(Ninf(VV,n+1)));
+        
+        //Teste para x = PI/4.00
+        x = PI/3.00;
+        j = findFloorIntervIndex(X,n+1,x);
+        Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
+        Bj = Y[j] - (M[j]*h*h)/6.00;
+        printf("%.14lf ",(M[j]/(6.00*h))*pow(X[j+1]-(x),3) + (M[j+1]/(6.00*h))*pow((x)-X[j],3) + Aj*((x)-X[j]) + Bj);
+        x = PI/4.00;
+        j = findFloorIntervIndex(X,n+1,x);
+        Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
+        Bj = Y[j] - (M[j]*h*h)/6.00;
+        printf("%.14lf ",(M[j]/(6.00*h))*pow(X[j+1]-(x),3) + (M[j+1]/(6.00*h))*pow((x)-X[j],3) + Aj*((x)-X[j]) + Bj);
+        x = PI/5.00;
+        j = findFloorIntervIndex(X,n+1,x);
+        Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
+        Bj = Y[j] - (M[j]*h*h)/6.00;
+        printf("%.14lf ",(M[j]/(6.00*h))*pow(X[j+1]-(x),3) + (M[j+1]/(6.00*h))*pow((x)-X[j],3) + Aj*((x)-X[j]) + Bj);
+        x = PI/6.00;
+        j = findFloorIntervIndex(X,n+1,x);
+        Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
+        Bj = Y[j] - (M[j]*h*h)/6.00;
+        printf("%.14lf ",(M[j]/(6.00*h))*pow(X[j+1]-(x),3) + (M[j+1]/(6.00*h))*pow((x)-X[j],3) + Aj*((x)-X[j]) + Bj);
+        
+        x = PI/7.00;
+        j = findFloorIntervIndex(X,n+1,x);
+        Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
+        Bj = Y[j] - (M[j]*h*h)/6.00;
+        printf("%.14lf ",(M[j]/(6.00*h))*pow(X[j+1]-(x),3) + (M[j+1]/(6.00*h))*pow((x)-X[j],3) + Aj*((x)-X[j]) + Bj);
+        x = PI/8.00;
+        j = findFloorIntervIndex(X,n+1,x);
+        Aj = (Y[j+1]-Y[j])/h - (M[j+1]-M[j])*(h/6.00);
+        Bj = Y[j] - (M[j]*h*h)/6.00;
+        printf("%.14lf\n",(M[j]/(6.00*h))*pow(X[j+1]-(x),3) + (M[j+1]/(6.00*h))*pow((x)-X[j],3) + Aj*((x)-X[j]) + Bj);
+        //Free para o ponteiros 
+        free(Y);
+        free(X);
+        free(X_aprox);
+        free(Y_aprox);
+        free(Y_real);
+        free(VV);
+        free(M);
         n+=10;
     }
     
@@ -84,7 +128,7 @@ double* findM(double* Y, double x0, double h, double d0, double dn, int n){
     d[n] = dn;
     
     for(i = 1;i<n; i++){
-        d[i] = (3.00/h)*((Y[i+1] - 2*Y[i] + Y[i-1])/h);
+        d[i] = (3.00/h)*((Y[i+1] - 2.00*Y[i] + Y[i-1])/h);
     }
     for(i=0;i<n+1;i++){
         for(j=0;j<n+1;j++){
@@ -92,7 +136,7 @@ double* findM(double* Y, double x0, double h, double d0, double dn, int n){
                A[i][i] = 2.00;
            }
            else if(j == i+1){
-               A[i][j] = 0.50;
+               A[i][j] = 0.50; //h/(h+h)
            }
            else if(i == j+1){
                A[i][j] = 0.50;
